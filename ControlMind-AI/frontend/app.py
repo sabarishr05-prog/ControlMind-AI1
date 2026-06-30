@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-
+BACKEND_URL= "https://controlmind-ai-backend.onrender.com"
 # Page configuration
 st.set_page_config(
     page_title="ControlMind AI",
@@ -95,7 +95,9 @@ if st.button("🚀 Ask ControlMind AI"):
         try:
             with st.spinner("Generating response..."):
 
-                if assistant == "Datasheet Analyzer":
+                if assistant == "Datasheet Analyzer" and uploaded_file is None:
+                     st.warning("Please upload a PDF.")
+                     st.stop()
 
                      files = {
                          "file": (
@@ -106,13 +108,13 @@ if st.button("🚀 Ask ControlMind AI"):
                       }
 
                      response = requests.post(
-        "http://127.0.0.1:8000/datasheet",
+        "{BACKEND_URL}/datasheet",
         files=files
                       )
 
                 else:
                      response = requests.post(
-        f"http://127.0.0.1:8000/{endpoint}",
+        f"{BACKEND_URL}/{endpoint}",
         json=payload
                      )
 
